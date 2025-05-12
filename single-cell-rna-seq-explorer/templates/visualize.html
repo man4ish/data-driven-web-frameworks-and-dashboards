@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization</title>
+</head>
+<body>
+    <h1>Single-cell RNA-seq Data Visualizations</h1>
+
+    <h2>PCA Plot</h2>
+    <div>{{ pca_plot | safe }}</div>
+
+    <h2>UMAP Plot</h2>
+    <div>{{ umap_plot | safe }}</div>
+
+    <h2>Clustering (UMAP)</h2>
+    <div>{{ cluster_plot | safe }}</div>
+</body>
+</html>
