@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <title>BLAST Web Server</title>
+</head>
+<body>
+    <h1>BLAST Sequence Search</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Paste Sequence:</label><br>
+        <textarea name="sequence" rows="10" cols="60"></textarea><br><br>
+
+        <label>Or Upload FASTA File:</label><br>
+        <input type="file" name="file"><br><br>
+
+        <input type="submit" value="Run BLAST">
+    </form>
+
+    {% if result %}
+    <h2>BLAST Results:</h2>
+    <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+</html>
+

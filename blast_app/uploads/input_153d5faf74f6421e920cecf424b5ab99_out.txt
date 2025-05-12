@@ -1,0 +1,5 @@
+# BLASTN 2.16.0+
+# Query: mytest
+# Database: mydb
+# 0 hits found
+# BLAST processed 1 queries

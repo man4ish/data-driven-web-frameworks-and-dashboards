@@ -6,6 +6,8 @@ This repository contains Python web frameworks for building data-driven dashboar
 
 - **Expression Analysis Dashboard**: A dashboard for visualizing gene expression data.
 - **Bioinformatics Dashboard**: A bioinformatics dashboard for genetic analysis and visualization.
+- **BLAST App**: A web application that integrates with BLAST (Basic Local Alignment Search Tool) for sequence alignment and analysis.
+
 
 ## Frameworks Used
 
