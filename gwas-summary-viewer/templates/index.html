@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>GWAS Summary Viewer</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+<body>
+    <h1>GWAS Summary Viewer</h1>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <label for="file">Upload GWAS summary file (.csv or .tsv):</label>
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if manhattan_plot %}
+        <h2>Manhattan Plot</h2>
+        <div id="manhattan"></div>
+        <script>
+            var manhattanData = {{ manhattan_plot | safe }};
+            Plotly.newPlot('manhattan', manhattanData.data, manhattanData.layout);
+        </script>
+    {% endif %}
+
+    {% if qq_plot %}
+        <h2>QQ Plot</h2>
+        <div id="qq"></div>
+        <script>
+            var qqData = {{ qq_plot | safe }};
+            Plotly.newPlot('qq', qqData.data, qqData.layout);
+        </script>
+    {% endif %}
+</body>
+</html>
