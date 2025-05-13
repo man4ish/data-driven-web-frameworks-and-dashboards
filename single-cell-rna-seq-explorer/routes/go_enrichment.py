@@ -19,9 +19,10 @@ def go_enrichment():
     if request.method == 'POST':
         # Get uploaded DEG file (CSV with gene ids)
         file = request.files['deg_file']
-        deg_df = pd.read_csv(file)
-        deg_genes = deg_df['Gene'].tolist()  # Assuming the column name is 'Gene_ID'
-
+        deg_df = pd.read_csv(file)  # assign to deg_df, not eg_df
+        deg_genes = deg_df['Gene'].tolist()  # Use 'Gene' since your CSV has that column
+        
+        print("Columns in DataFrame:", deg_df.columns.tolist())
         # Load GO annotations
         go_terms = load_go_terms()
 

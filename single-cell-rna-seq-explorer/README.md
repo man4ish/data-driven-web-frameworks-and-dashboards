@@ -84,3 +84,104 @@ Before you begin, ensure you have the following installed:
 └── requirements.txt      # Python dependencies
 
 ```
+
+## 🐳 Dockerizing and Deploying to AWS
+
+### 1️⃣ Create a `.dockerignore` File
+
+A `.dockerignore` file prevents unnecessary files from being added to your Docker image (similar to `.gitignore`).
+
+**Example:**
+
+```
+__pycache__/
+.git/
+.env
+*.pyc
+*.pyo
+```
+
+---
+
+### 2️⃣ Build the Docker Image
+
+From your project directory, build the Docker image:
+
+```bash
+docker build -t flask-app .
+```
+
+---
+
+### 3️⃣ Run the Docker Container Locally
+
+After the image is built, run the application in a container:
+
+```bash
+docker run -p 80:80 flask-app
+```
+
+Visit [http://localhost](http://localhost) in your browser to verify it's running.
+
+---
+
+### 4️⃣ Push the Docker Image to AWS
+
+Once confirmed locally, push your image to AWS.
+
+#### ✅ Push to Amazon ECR (Elastic Container Registry)
+
+**1. Create an ECR Repository:**
+
+Go to the [ECR Console](https://console.aws.amazon.com/ecr) and create a new repository.
+
+**2. Authenticate Docker to ECR:**
+
+```bash
+aws ecr get-login-password --region <aws-region> | docker login --username AWS --password-stdin <aws-account-id>.dkr.ecr.<aws-region>.amazonaws.com
+```
+
+**3. Tag the Docker Image:**
+
+```bash
+docker tag flask-app:latest <aws-account-id>.dkr.ecr.<aws-region>.amazonaws.com/my-repository:latest
+```
+
+**4. Push the Docker Image:**
+
+```bash
+docker push <aws-account-id>.dkr.ecr.<aws-region>.amazonaws.com/my-repository:latest
+```
+
+---
+
+### 5️⃣ Deploy to AWS ECS (Elastic Container Service)
+
+**1. Create an ECS Cluster:**
+
+Use either the **Fargate** or **EC2** launch type.
+
+**2. Create a Task Definition:**
+
+Define your container settings (CPU, memory, ports, etc.).
+
+**3. Run the Task:**
+
+Launch the task in your ECS cluster.
+
+**4. (Optional) Set Up Load Balancer:**
+
+Set up an **Application Load Balancer (ALB)** to distribute traffic and manage availability.
+
+---
+
+### 6️⃣ (Optional) Set Up Auto-Scaling
+
+ECS supports auto-scaling to manage traffic spikes and optimize resource use.
+
+---
+
+### 🔁 Alternatives to ECS
+
+- **Elastic Beanstalk:** Simple deployment with managed infrastructure, load balancing, and scaling.
+- **AWS Lambda + API Gateway:** Ideal for lightweight or serverless applications.
