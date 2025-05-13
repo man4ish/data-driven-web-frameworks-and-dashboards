@@ -1,0 +1,19 @@
+<!-- templates/go_enrichment_form.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO Enrichment Analysis</title>
+</head>
+<body>
+    <h1>Gene Ontology (GO) Enrichment Analysis</h1>
+    <form action="/go_enrichment" method="POST" enctype="multipart/form-data">
+        <label for="deg_file">Upload DEG File (CSV with Gene IDs):</label>
+        <input type="file" name="deg_file" required><br><br>
+
+        <input type="submit" value="Run GO Enrichment Analysis">
+    </form>
+</body>
+</html>

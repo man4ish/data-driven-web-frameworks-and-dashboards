@@ -1,8 +1,10 @@
 from flask import Flask
 from routes.home import home
 from routes.visualization import visualize
-from routes.download import download  # Import download route
-from routes.gsea import gsea  # Import GSEA route
+from routes.download import download
+from routes.differential_analysis import differential_analysis  # Import the new differential analysis module
+from routes.gsea import gsea
+from routes.go_enrichment import go_enrichment
 
 app = Flask(__name__)
 
@@ -13,11 +15,16 @@ app.add_url_rule('/', 'home', home, methods=['GET', 'POST'])
 app.add_url_rule('/visualize', 'visualize', visualize, methods=['GET', 'POST'])
 
 # Download generated result
-app.add_url_rule('/download', 'download', download, methods=['GET'])\
+app.add_url_rule('/download', 'download', download, methods=['GET'])
 
 # Add GSEA route
 app.add_url_rule('/gsea', 'gsea', gsea, methods=['POST', 'GET']) 
 
+# Differential analysis route
+app.add_url_rule('/differential', 'differential', differential_analysis, methods=['GET', 'POST'])
+
+
+app.add_url_rule('/go_enrichment', 'go_enrichment', go_enrichment, methods=['POST', 'GET'])
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)

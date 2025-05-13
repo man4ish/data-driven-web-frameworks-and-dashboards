@@ -20,6 +20,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('gsea') }}">GSEA Analysis</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('differential') }}">Differential Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('go_enrichment') }}">GO Enrichment Analysis</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -39,6 +45,12 @@
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="gsea-tab" data-bs-toggle="tab" href="#gsea" role="tab" aria-controls="gsea" aria-selected="false">GSEA Analysis</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="differential-tab" data-bs-toggle="tab" href="#differential" role="tab" aria-controls="differential" aria-selected="false">Differential Analysis</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="go-enrichment-tab" data-bs-toggle="tab" href="#go-enrichment" role="tab" aria-controls="go-enrichment" aria-selected="false">GO Enrichment Analysis</a>
             </li>
         </ul>
 
@@ -93,7 +105,52 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Differential Analysis Tab -->
+            <div class="tab-pane fade" id="differential" role="tabpanel" aria-labelledby="differential-tab">
+                <div class="card shadow-sm mt-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Differential Expression Analysis</h3>
+            
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('differential') }}">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Upload CSV File</label>
+                                <input class="form-control" type="file" name="file" required>
+                                <div class="form-text">File should contain gene expression data with two conditions as columns.</div>
+                            </div>
+            
+                            <button class="btn btn-danger" type="submit">Run Differential Analysis</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GO Enrichment Tab -->
+            <div class="tab-pane fade" id="go-enrichment" role="tabpanel" aria-labelledby="go-enrichment-tab">
+                <div class="card shadow-sm mt-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Gene Ontology (GO) Enrichment Analysis</h3>
+
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('go_enrichment') }}">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Upload CSV File for GO Enrichment</label>
+                                <input class="form-control" type="file" name="deg_file" required>
+                                <div class="form-text">Ensure your file contains gene expression data with genes as columns.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="genes" class="form-label">Differentially Expressed Genes (DEGs)</label>
+                                <input class="form-control" type="text" name="genes" placeholder="e.g. TP53, BRCA1, MYC">
+                                <div class="form-text">Enter a list of DEGs for GO enrichment analysis.</div>
+                            </div>
+
+                            <button class="btn btn-info" type="submit">Run GO Enrichment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- End of tab content -->
 
         <div class="mt-5 text-muted text-center">
             <small>&copy; 2025 Single-cell RNA-seq Explorer. Created by <strong>Manish Kumar</strong>.</small>
