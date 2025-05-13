@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gene Set Enrichment Analysis (GSEA)</title>
+</head>
+<body>
+    <h1>Perform Gene Set Enrichment Analysis (GSEA)</h1>
+    <form action="/gsea" method="POST" enctype="multipart/form-data">
+        <label for="file">Upload Gene Expression Data (CSV):</label>
+        <input type="file" name="file" required><br><br>
+        
+        <label for="gene_set">Choose Gene Set:</label>
+        <select name="gene_set" required>
+            <option value="MSigDB_Hallmark">Hallmark Gene Sets</option>
+            <option value="KEGG">KEGG Pathways</option>
+            <!-- Add more gene sets as needed -->
+        </select><br><br>
+        
+        <button type="submit">Run GSEA</button>
+    </form>
+</body>
+</html>

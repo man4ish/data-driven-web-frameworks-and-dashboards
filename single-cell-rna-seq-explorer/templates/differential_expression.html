@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center">Differential Expression Analysis Results</h2>
+        
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload Your Dataset</label>
+                <input class="form-control" type="file" name="file" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="group1" class="form-label">Group 1 (e.g., Treatment)</label>
+                <input class="form-control" type="text" name="group1" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="group2" class="form-label">Group 2 (e.g., Control)</label>
+                <input class="form-control" type="text" name="group2" required>
+            </div>
+
+            <button type="submit" class="btn btn-warning">Run Differential Expression</button>
+        </form>
+
+        {% if result %}
+            <h4 class="mt-4">Results</h4>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Gene</th>
+                        <th>T-Statistic</th>
+                        <th>P-Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gene, stats in result %}
+                        <tr>
+                            <td>{{ gene }}</td>
+                            <td>{{ stats['t_stat'] }}</td>
+                            <td>{{ stats['p_val'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

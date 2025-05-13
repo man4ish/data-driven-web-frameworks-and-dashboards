@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSEA Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Gene Set Enrichment Analysis (GSEA) Results</h1>
+        
+        <div class="mt-4">
+            <h3>Enrichment Score Summary</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Gene Set</th>
+                        <th>Enrichment Score</th>
+                        <th>P-value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gene_set, score, p_value in results %}
+                    <tr>
+                        <td>{{ gene_set }}</td>
+                        <td>{{ score }}</td>
+                        <td>{{ p_value }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <h3>Enrichment Plot</h3>
+            <img src="{{ url_for('static', filename='gsea_plot.png') }}" alt="Enrichment Plot" class="img-fluid">
+        </div>
+
+        <div class="mt-4">
+            <a href="/" class="btn btn-primary">Back to Upload</a>
+        </div>
+    </div>
+</body>
+</html>

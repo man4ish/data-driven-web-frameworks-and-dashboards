@@ -2,6 +2,7 @@ from flask import Flask
 from routes.home import home
 from routes.visualization import visualize
 from routes.download import download  # Import download route
+from routes.gsea import gsea  # Import GSEA route
 
 app = Flask(__name__)
 
@@ -12,7 +13,11 @@ app.add_url_rule('/', 'home', home, methods=['GET', 'POST'])
 app.add_url_rule('/visualize', 'visualize', visualize, methods=['GET', 'POST'])
 
 # Download generated result
-app.add_url_rule('/download', 'download', download, methods=['GET'])
+app.add_url_rule('/download', 'download', download, methods=['GET'])\
+
+# Add GSEA route
+app.add_url_rule('/gsea', 'gsea', gsea, methods=['POST', 'GET']) 
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
