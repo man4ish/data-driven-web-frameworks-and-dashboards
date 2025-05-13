@@ -23,12 +23,23 @@ def index():
 def visualize():
     filepath = request.args.get('filepath')
 
-    # Read the uploaded CSV file
-    df = pd.read_csv(filepath)
+    # Load and clean data
+    df = pd.read_csv(filepath, index_col=0)  # Index column for gene/cell names
+    df = df.apply(pd.to_numeric, errors='coerce')
+    df = df.dropna(axis=0, how='any')
 
-    # Ensure the dataframe contains only numeric data
-    df = df.apply(pd.to_numeric, errors='coerce')  # Convert everything to numeric, coerce errors to NaN
-    df = df.dropna(axis=0, how='any')  # Drop rows with NaN values
+    # If dataframe is empty, show df.head() as HTML
+    if df.empty:
+        return f"""
+        <h3>Uploaded file contains no valid numeric data after preprocessing.</h3>
+        <p>Check that your CSV contains only numeric values (or use index_col=0 if needed).</p>
+        <p><strong>Original file preview (first few rows):</strong></p>
+        <pre>{pd.read_csv(filepath).head().to_string()}</pre>
+        """, 400
+
+    # Preview the cleaned data for debugging
+    preview_html = df.head().to_html()
+    
     
     # Perform single-cell RNA-seq analysis
     adata = sc.AnnData(df)  # Assuming the input data is already a gene expression matrix
