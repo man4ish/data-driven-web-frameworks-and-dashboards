@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Define environment variable
-ENV NAME World
+ENV NAME=World
 
 # Run the Flask app using Gunicorn for production
 CMD ["gunicorn", "-b", "0.0.0.0:80", "app:app"]
