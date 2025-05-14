@@ -29,6 +29,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('gene_coexpression') }}">Gene Co-expression Network</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('pathway_enrichment') }}">Pathway Enrichment Analysis</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -57,6 +60,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="gene-coexpression-tab" data-bs-toggle="tab" href="#gene-coexpression" role="tab" aria-controls="gene-coexpression" aria-selected="false">Gene Co-expression Network</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pathway-tab" data-bs-toggle="tab" href="#pathway" role="tab" aria-controls="pathway" aria-selected="false">Pathway Analysis</a>
             </li>
         </ul>
 
@@ -185,6 +191,30 @@
             </div>
             <!-- End of Gene Co-expression Network Tab -->
 
+            <!-- Pathway Analysis Tab -->
+            <div class="tab-pane fade" id="pathway" role="tabpanel" aria-labelledby="pathway-tab">
+                <div class="card shadow-sm mt-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Pathway Analysis</h3>
+                        <p>Upload your gene expression data to analyze biological pathways.</p>
+
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('pathway_enrichment') }}">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Upload Gene Expression Data</label>
+                                <input class="form-control" type="file" name="file" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="pathway_db" class="form-label">Pathway Database</label>
+                                <input class="form-control" type="text" name="pathway_db" placeholder="e.g. Reactome, KEGG">
+                            </div>
+
+                            <button class="btn btn-secondary" type="submit">Analyze Pathways</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Pathway Analysis Tab -->
 
         </div> <!-- End of tab content -->
 

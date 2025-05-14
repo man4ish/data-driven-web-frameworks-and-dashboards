@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathway Enrichment Analysis Results</title>
+    <!-- Add CSS and Bootstrap for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Pathway Enrichment Analysis Results</h1>
+
+        <!-- If results exist, display them -->
+        {% if results %}
+            <h3>Enrichment Results</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Pathway</th>
+                        <th scope="col">Enrichment Score</th>
+                        <th scope="col">P-Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                        <tr>
+                            <td>{{ result.pathway }}</td>
+                            <td>{{ result.score }}</td>
+                            <td>{{ result.p_value }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Display the pathway enrichment plot -->
+            <h3>Pathway Enrichment Plot</h3>
+            <img src="{{ url_for('static', filename=plot_url) }}" alt="Pathway Enrichment Plot" class="img-fluid">
+
+        {% else %}
+            <p>No results to display. Please upload a file and run the analysis.</p>
+        {% endif %}
+
+        <!-- Return to home page button -->
+        <a href="{{ url_for('home') }}" class="btn btn-primary mt-4">Return to Home</a>
+    </div>
+
+    <!-- Optional: Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
