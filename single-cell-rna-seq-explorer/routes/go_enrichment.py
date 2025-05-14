@@ -12,6 +12,26 @@ from goatools.go_enrichment import GOEnrichmentStudy
 import shutil
 import gzip
 import urllib.request
+from mygene import MyGeneInfo
+
+def get_gene_info(gene_ids):
+    mg = MyGeneInfo()
+    
+    # Query multiple gene IDs at once (assumes they are Entrez IDs)
+    gene_info = mg.querymany(gene_ids, scopes='entrezgene', fields='symbol,name,chromosome,type_of_gene', species='human')
+
+    # Convert to a dict: {gene_id: {symbol, name, chromosome, type_of_gene}}
+    gene_metadata = {}
+    for entry in gene_info:
+        if not entry.get('notfound'):
+            gene_metadata[entry['query']] = {
+                'symbol': entry.get('symbol', ''),
+                'name': entry.get('name', ''),
+                'chromosome': entry.get('chromosome', ''),
+                'type': entry.get('type_of_gene', '')
+            }
+    return gene_metadata
+
 
 def load_go_terms():
     obo_file = "go-basic.obo"
@@ -57,7 +77,7 @@ def go_enrichment():
         file = request.files['deg_file']
         deg_df = pd.read_csv(file)
         deg_genes = deg_df['Gene'].tolist()
-
+        
         print(deg_genes)
 
         # Load data
@@ -90,13 +110,29 @@ def go_enrichment():
         ]
         go_terms_enrichment_df = pd.DataFrame(go_terms_enrichment, columns=["GO Term", "FDR"])
 
+        # Fetch gene metadata
+        gene_metadata = get_gene_info(deg_genes)
+
+        deg_info = pd.DataFrame([
+            {
+                'Entrez ID': gene_id,
+                'Symbol': gene_metadata[gene_id]['symbol'],
+                'Description': gene_metadata[gene_id]['name'],
+                'Chromosome': gene_metadata[gene_id]['chromosome'],
+                'Type': gene_metadata[gene_id]['type'],
+            }
+            for gene_id in deg_genes if gene_id in gene_metadata
+        ])
+
         # Plotly bar plot
         fig = px.bar(go_terms_enrichment_df, x="FDR", y="GO Term", orientation="h",
                      title="GO Term Enrichment (FDR < 0.05)", height=600)
         graph_html = fig.to_html(full_html=False)
 
+        # Render results in the template
         return render_template('go_enrichment_results.html',
                                graph_html=graph_html,
-                               results=go_terms_enrichment_df)
+                               results=go_terms_enrichment_df.to_dict(orient='records'),
+                               deg_metadata=deg_info.to_dict(orient='records'))
 
     return render_template('go_enrichment_form.html')

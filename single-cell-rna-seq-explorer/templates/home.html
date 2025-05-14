@@ -26,6 +26,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('go_enrichment') }}">GO Enrichment Analysis</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('gene_coexpression') }}">Gene Co-expression Network</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -51,6 +54,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="go-enrichment-tab" data-bs-toggle="tab" href="#go-enrichment" role="tab" aria-controls="go-enrichment" aria-selected="false">GO Enrichment Analysis</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="gene-coexpression-tab" data-bs-toggle="tab" href="#gene-coexpression" role="tab" aria-controls="gene-coexpression" aria-selected="false">Gene Co-expression Network</a>
             </li>
         </ul>
 
@@ -149,6 +155,36 @@
                     </div>
                 </div>
             </div>
+
+           
+            <!-- Gene Co-expression Network Tab -->
+            <div class="tab-pane fade" id="gene-coexpression" role="tabpanel" aria-labelledby="gene-coexpression-tab">
+                <div class="card shadow-sm mt-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Gene Co-expression Network Construction</h3>
+                        <p>Build and visualize gene co-expression networks using your gene expression data.</p>
+
+                        <!-- Updated Form with dynamic action URL -->
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('gene_coexpression') }}">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Upload Gene Expression Data</label>
+                                <input class="form-control" type="file" name="file" required>
+                                <div class="form-text">Ensure your file contains gene expression data with genes as columns.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="genes" class="form-label">Genes (comma-separated)</label>
+                                <input class="form-control" type="text" name="genes" placeholder="e.g. TP53, BRCA1, MYC">
+                                <div class="form-text">Optional. Leave blank to skip the heatmap.</div>
+                            </div>
+
+                            <button class="btn btn-warning" type="submit">Build Co-expression Network</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Gene Co-expression Network Tab -->
+
 
         </div> <!-- End of tab content -->
 

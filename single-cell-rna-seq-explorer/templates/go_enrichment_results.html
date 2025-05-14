@@ -1,43 +1,27 @@
-<!-- templates/go_enrichment_results.html -->
+<h2>GO Term Enrichment Results</h2>
+<table border="1">
+  <tr><th>GO Term</th><th>FDR</th></tr>
+  {% for row in results %}
+    <tr>
+      <td>{{ row["GO Term"] }}</td>
+      <td>{{ row["FDR"] }}</td>
+    </tr>
+  {% endfor %}
+</table>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GO Enrichment Results</title>
-</head>
-<body>
-    <h1>Gene Ontology (GO) Enrichment Analysis Results</h1>
+<h2>DEG Gene Information</h2>
+<table border="1">
+  <tr><th>Entrez ID</th><th>Symbol</th><th>Description</th><th>Chromosome</th><th>Type</th></tr>
+  {% for row in deg_metadata %}
+    <tr>
+      <td>{{ row["Entrez ID"] }}</td>
+      <td>{{ row["Symbol"] }}</td>
+      <td>{{ row["Description"] }}</td>
+      <td>{{ row["Chromosome"] }}</td>
+      <td>{{ row["Type"] }}</td>
+    </tr>
+  {% endfor %}
+</table>
 
-    <!-- Display GO Term Enrichment Plot -->
-    <h2>GO Term Enrichment (FDR)</h2>
-    <img src="data:image/png;base64,{{ plot_url }}" alt="GO Term Enrichment Plot">
-
-    <!-- Display Interactive Plot with Plotly -->
-    <h2>Interactive GO Term Enrichment Chart</h2>
-    {{ graph_html|safe }}
-
-    <!-- Display GO Results Table -->
-    <h2>Enriched GO Terms</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>GO Term</th>
-                <th>FDR</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for index, row in results.iterrows() %}
-            <tr>
-                <td>{{ row['GO Term'] }}</td>
-                <td>{{ row['FDR'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <br>
-    <a href="/">Go Back to Home</a>
-</body>
-</html>
+<h2>GO Term Enrichment Bar Plot</h2>
+<div>{{ graph_html | safe }}</div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gene Co-expression Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="file"] {
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Gene Co-expression Analysis</h1>
+    <p>Upload a CSV file containing gene expression data</p>
+</header>
+
+<div class="container">
+    <h2>Upload Gene Expression Data</h2>
+    <form action="/gene_coexpression" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Select a CSV file with gene expression data:</label>
+            <input type="file" id="file" name="file" accept=".csv" required>
+        </div>
+        <button type="submit">Submit File</button>
+    </form>
+</div>
+
+<div class="footer">
+    <p>&copy; 2025 Gene Co-expression Analysis Tool</p>
+</div>
+
+</body>
+</html>
