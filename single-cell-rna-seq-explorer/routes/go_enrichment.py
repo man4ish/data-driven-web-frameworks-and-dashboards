@@ -1,63 +1,102 @@
-# routes/go_enrichment.py
-
 from flask import render_template, request
 import pandas as pd
-from goatools import obo_parser
-from goatools.go_enrichment import GOEnrichmentStudy
 import matplotlib.pyplot as plt
 import io
 import base64
 import plotly.express as px
+import os
 
-# Load GO terms from the OBO file (we'll use a public GO OBO file here)
+from goatools.obo_parser import GODag
+from goatools.anno.genetogo_reader import Gene2GoReader
+from goatools.go_enrichment import GOEnrichmentStudy
+import shutil
+import gzip
+import urllib.request
+
 def load_go_terms():
-    go_terms = obo_parser.GODag("http://purl.obolibrary.org/obo/go.obo")
-    return go_terms
+    obo_file = "go-basic.obo"
+    if not os.path.exists(obo_file):
+        print("Downloading GO OBO file...")
+        url = "http://geneontology.org/ontology/go-basic.obo"
+        urllib.request.urlretrieve(url, obo_file)
+    return GODag(obo_file)
+
+
+# Load GO annotations using NCBI gene2go
+def load_go_resources():
+    obo_file = "go-basic.obo"
+    gene2go_gz = "gene2go.gz"
+    gene2go_file = "gene2go"
+
+    # Download go-basic.obo if not present
+    if not os.path.exists(obo_file):
+        print("Downloading go-basic.obo...")
+        urllib.request.urlretrieve("http://purl.obolibrary.org/obo/go/go-basic.obo", obo_file)
+    
+    '''
+    # Download and unzip gene2go.gz if not present
+    if not os.path.exists(gene2go_file):
+        print("Downloading gene2go.gz...")
+        urllib.request.urlretrieve("https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2go.gz", gene2go_gz)
+
+        print("Unzipping gene2go.gz...")
+        with gzip.open(gene2go_gz, 'rb') as f_in, open(gene2go_file, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+    '''
+
+    # Load GO DAG and gene2go associations
+    go_dag = GODag(obo_file)
+    gene2go = Gene2GoReader(gene2go_file, taxids=[9606])  # Tax ID 9606 = Homo sapiens
+    ns2assoc = gene2go.get_ns2assc()
+
+    return go_dag, ns2assoc
 
 # GO Enrichment Analysis function
 def go_enrichment():
     if request.method == 'POST':
-        # Get uploaded DEG file (CSV with gene ids)
         file = request.files['deg_file']
-        deg_df = pd.read_csv(file)  # assign to deg_df, not eg_df
-        deg_genes = deg_df['Gene'].tolist()  # Use 'Gene' since your CSV has that column
-        
-        print("Columns in DataFrame:", deg_df.columns.tolist())
-        # Load GO annotations
+        deg_df = pd.read_csv(file)
+        deg_genes = deg_df['Gene'].tolist()
+
+        print(deg_genes)
+
+        # Load data
         go_terms = load_go_terms()
+        # Load GO DAG and annotation
+        go_dag, ns2assoc = load_go_resources()
 
-        # Example background genes (you can replace this with a list of all genes in your dataset)
-        background_genes = ['Gene1', 'Gene2', 'Gene3', 'Gene4', 'Gene5']  # Replace with real gene list
+        # Combine all namespaces (BP, MF, CC) into one gene2go dict
+        go_annotations = {}
+        for ns, assoc in ns2assoc.items():
+            for gene_id, go_ids in assoc.items():
+                go_annotations.setdefault(str(gene_id), set()).update(go_ids)
 
-        # Perform GO enrichment analysis using GOEnrichmentStudy
+        # Background genes
+        background_genes = list(go_annotations.keys())
+
+        # Run enrichment
         go_enrichment = GOEnrichmentStudy(
             background_genes,
-            go_terms,
-            # Replace with actual gene ontology annotations
-            go_annotations={'Gene1': ['GO:0008150'], 'Gene2': ['GO:0008150'], 'Gene3': ['GO:0003674']}, 
-            methods=['fdr_bh']
+            go_annotations,
+            go_dag,
+            methods=["fdr_bh"]
         )
         go_results = go_enrichment.run_study(deg_genes)
 
-        # Plot GO terms enrichment
-        go_terms_enrichment = [(term, result.p_fdr_bh) for term, result in zip(go_terms, go_results)]
-        go_terms_enrichment_df = pd.DataFrame(go_terms_enrichment, columns=['GO Term', 'FDR'])
+        # Format results with significant FDR < 0.05
+        go_terms_enrichment = [
+            (f"{res.GO} ({go_dag[res.GO].name})", res.p_fdr_bh)
+            for res in go_results if res.p_fdr_bh < 0.05
+        ]
+        go_terms_enrichment_df = pd.DataFrame(go_terms_enrichment, columns=["GO Term", "FDR"])
 
-        # Plotting FDR values
-        fig = plt.figure()
-        go_terms_enrichment_df.plot(kind='barh', x='GO Term', y='FDR', ax=fig.gca())
-        plt.title("GO Term Enrichment (FDR)")
-        
-        # Convert plot to base64 to embed in HTML
-        img = io.BytesIO()
-        fig.savefig(img, format='png')
-        img.seek(0)
-        img_data = base64.b64encode(img.read()).decode('utf-8')
-
-        # Display interactive chart with Plotly
-        fig = px.bar(go_terms_enrichment_df, x="GO Term", y="FDR", title="GO Term Enrichment (FDR)")
+        # Plotly bar plot
+        fig = px.bar(go_terms_enrichment_df, x="FDR", y="GO Term", orientation="h",
+                     title="GO Term Enrichment (FDR < 0.05)", height=600)
         graph_html = fig.to_html(full_html=False)
 
-        return render_template('go_enrichment_results.html', plot_url=img_data, graph_html=graph_html, results=go_terms_enrichment_df)
+        return render_template('go_enrichment_results.html',
+                               graph_html=graph_html,
+                               results=go_terms_enrichment_df)
 
     return render_template('go_enrichment_form.html')
