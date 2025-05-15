@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report Summary</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h2>Natural Language Summary</h2>
+    <p>{{ summary }}</p>
+
+    <h2>Data Visualization</h2>
+    {{ chart_html | safe }}
+
+    <a href="/">← Back</a>
+</body>
+</html>
