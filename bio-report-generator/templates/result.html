@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Report Summary</title>
+    <title>Analysis Results</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <h2>Natural Language Summary</h2>
-    <p>{{ summary }}</p>
+    <h1>Analysis Summary</h1>
 
-    <h2>Data Visualization</h2>
-    {{ chart_html | safe }}
+    <textarea id="summary-text" rows="20" cols="100" readonly>{{ summary }}</textarea><br><br>
 
-    <a href="/">← Back</a>
+    <button onclick="downloadText()">Download Summary (.txt)</button>
+    <!-- Uncomment below if you want to add PDF export in future -->
+    <!-- <button onclick="downloadPDF()">Download PDF</button> -->
+
+    <h2>Chart</h2>
+    <div>
+        {{ chart_html | safe }}
+    </div>
+
+    <script>
+        function downloadText() {
+            const text = document.getElementById("summary-text").value;
+            const blob = new Blob([text], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "summary.txt";
+            link.click();
+        }
+
+        // Uncomment if you want to add jsPDF for PDF download
+        /*
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const text = document.getElementById("summary-text").value;
+            const lines = doc.splitTextToSize(text, 180);
+            doc.text(lines, 10, 10);
+            doc.save("summary.pdf");
+        }
+        */
+    </script>
+
+    <!-- Optional: Include jsPDF for PDF export -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
 </body>
 </html>

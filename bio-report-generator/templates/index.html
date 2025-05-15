@@ -1,14 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Bioinformatics Report Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #34495e;
+        }
+
+        input[type="file"],
+        textarea,
+        select,
+        input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input[type="range"] {
+            padding: 0;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .range-value {
+            text-align: right;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload Expression File + Prompt</h1>
-    <form action="/analyze" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" required><br><br>
-        <textarea name="prompt" rows="4" cols="60" placeholder="Enter your analysis prompt..." required></textarea><br><br>
-        <button type="submit">Generate Report</button>
-    </form>
+    <div class="container">
+        <h1>Bioinformatics Report Generator</h1>
+        <form action="/analyze" method="post" enctype="multipart/form-data">
+            <label for="file">CSV File:</label>
+            <input type="file" name="file" required>
+
+            <label for="prompt">Your Prompt:</label>
+            <textarea name="prompt" rows="4" placeholder="Enter your analysis prompt..." required></textarea>
+
+            <label for="chart_type">Chart Type:</label>
+            <select name="chart_type">
+                <option value="box">Box Plot</option>
+                <option value="scatter">Scatter Plot</option>
+                <option value="violin">Violin Plot</option>
+                <option value="heatmap">Heatmap</option>
+            </select>
+
+            <label for="model">LLM Model:</label>
+            <select name="model">
+                <option value="llama3">LLaMA 3</option>
+                <option value="mistral">Mistral</option>
+                <option value="gemma">Gemma</option>
+            </select>
+
+            <label for="temperature">Temperature (0.0 - 1.0):</label>
+            <input type="range" name="temperature" min="0" max="1" step="0.1" value="0.7" oninput="tempVal.innerText = this.value">
+            <div class="range-value">Selected: <span id="tempVal">0.7</span></div>
+
+            <button type="submit">Generate Report</button>
+        </form>
+    </div>
 </body>
 </html>
