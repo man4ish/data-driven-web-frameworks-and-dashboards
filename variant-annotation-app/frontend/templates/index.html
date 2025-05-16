@@ -5,12 +5,143 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Variant Annotation App</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-    th, td { border: 1px solid #ddd; padding: 8px; }
-    th { background-color: #f2f2f2; }
-    input[type="text"] { padding: 5px; width: 200px; margin-right: 10px; }
-    .filter-section { margin-top: 20px; margin-bottom: 20px; }
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7fafc;
+      margin: 0;
+      padding: 40px 20px;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-weight: 700;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+
+    form, .filter-section {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #555;
+      margin-right: 10px;
+      display: inline-block;
+      min-width: 140px;
+    }
+
+    select, input[type="file"], input[type="text"] {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: calc(100% - 160px);
+      max-width: 400px;
+      transition: border-color 0.3s ease;
+    }
+
+    select:focus, input[type="file"]:focus, input[type="text"]:focus {
+      border-color: #4a90e2;
+      outline: none;
+      box-shadow: 0 0 6px #4a90e2aa;
+    }
+
+    button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      margin-left: 150px;
+      margin-top: 10px;
+      display: inline-block;
+    }
+
+    button:hover {
+      background: #357abd;
+    }
+
+    /* Messages */
+    ul {
+      max-width: 700px;
+      background: #ffe6e6;
+      border: 1px solid #ff4c4c;
+      color: #d8000c;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      list-style-type: none;
+    }
+
+    /* Filter Section */
+    .filter-section h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .filter-section label {
+      width: auto;
+      margin-right: 20px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .filter-section input[type="text"] {
+      width: 180px;
+      margin-right: 30px;
+      font-size: 0.9rem;
+    }
+
+    /* Table styles */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 900px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+    }
+
+    thead {
+      background: linear-gradient(90deg, #4a90e2, #357abd);
+      color: white;
+      font-weight: 700;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f5f9;
+    }
   </style>
 </head>
 <body>
@@ -18,7 +149,7 @@
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}
-      <ul style="color:red;">
+      <ul>
         {% for message in messages %}
           <li>{{ message }}</li>
         {% endfor %}
@@ -29,12 +160,10 @@
   {% if variants %}
   <div class="filter-section">
     <h3>Filter Variants</h3>
-    <label>Gene:
-      <input type="text" id="geneFilter" placeholder="Gene symbol" onkeyup="applyFilters()" />
-    </label>
-    <label>Impact (Func.refGene):
-      <input type="text" id="impactFilter" placeholder="Impact" onkeyup="applyFilters()" />
-    </label>
+    <label for="geneFilter">Gene:</label>
+    <input type="text" id="geneFilter" placeholder="Gene symbol" onkeyup="applyFilters()" />
+    <label for="impactFilter">Impact (Func.refGene):</label>
+    <input type="text" id="impactFilter" placeholder="Impact" onkeyup="applyFilters()" />
   </div>
 
   <table id="variantsTable">
@@ -96,6 +225,15 @@
 
   {% else %}
   <form method="POST" enctype="multipart/form-data">
+    <label for="annotator">Select Annotator:</label>
+    <select id="annotator" name="annotator" required>
+      <option value="annovar" selected>ANNOVAR</option>
+      <option value="vep">VEP (Variant Effect Predictor)</option>
+      <option value="snpeff">SnpEff</option>
+      <option value="bcftools">BCFtools</option>
+    </select>
+    <br /><br />
+
     <label for="vcf_file">Upload VCF file:</label>
     <input type="file" id="vcf_file" name="vcf_file" accept=".vcf" required />
     <button type="submit">Annotate</button>
