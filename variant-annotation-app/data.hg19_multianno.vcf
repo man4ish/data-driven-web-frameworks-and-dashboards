@@ -1,0 +1,18 @@
+##fileformat=VCFv4.2
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##INFO=<ID=ANNOVAR_DATE,Number=1,Type=String,Description="Flag the start of ANNOVAR annotation for one alternative allele">
+##INFO=<ID=Func.refGene,Number=.,Type=String,Description="Func.refGene annotation provided by ANNOVAR">
+##INFO=<ID=Gene.refGene,Number=.,Type=String,Description="Gene.refGene annotation provided by ANNOVAR">
+##INFO=<ID=GeneDetail.refGene,Number=.,Type=String,Description="GeneDetail.refGene annotation provided by ANNOVAR">
+##INFO=<ID=ExonicFunc.refGene,Number=.,Type=String,Description="ExonicFunc.refGene annotation provided by ANNOVAR">
+##INFO=<ID=AAChange.refGene,Number=.,Type=String,Description="AAChange.refGene annotation provided by ANNOVAR">
+##INFO=<ID=CLNALLELEID,Number=.,Type=String,Description="CLNALLELEID annotation provided by ANNOVAR">
+##INFO=<ID=CLNDN,Number=.,Type=String,Description="CLNDN annotation provided by ANNOVAR">
+##INFO=<ID=CLNDISDB,Number=.,Type=String,Description="CLNDISDB annotation provided by ANNOVAR">
+##INFO=<ID=CLNREVSTAT,Number=.,Type=String,Description="CLNREVSTAT annotation provided by ANNOVAR">
+##INFO=<ID=CLNSIG,Number=.,Type=String,Description="CLNSIG annotation provided by ANNOVAR">
+##INFO=<ID=ALLELE_END,Number=0,Type=Flag,Description="Flag the end of ANNOVAR annotation for one alternative allele">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+1	879317	rs555	GA	G	100	PASS	DP=100;ANNOVAR_DATE=2022-08-02;Func.refGene=exonic;Gene.refGene=SAMD11;GeneDetail.refGene=.;ExonicFunc.refGene=frameshift_deletion;AAChange.refGene=SAMD11:NM_001385640:exon14:c.2323delG:p.V775Wfs*111,SAMD11:NM_001385641:exon14:c.2320delG:p.V774Wfs*111,SAMD11:NM_152486:exon14:c.1831delG:p.V611Wfs*111;CLNALLELEID=.;CLNDN=.;CLNDISDB=.;CLNREVSTAT=.;CLNSIG=.;ALLELE_END
+1	879318	.	A	T	99	PASS	DP=80;ANNOVAR_DATE=2022-08-02;Func.refGene=exonic;Gene.refGene=SAMD11;GeneDetail.refGene=.;ExonicFunc.refGene=nonsynonymous_SNV;AAChange.refGene=SAMD11:NM_001385640:exon14:c.G2323T:p.V775L,SAMD11:NM_001385641:exon14:c.G2320T:p.V774L,SAMD11:NM_152486:exon14:c.G1831T:p.V611L;CLNALLELEID=.;CLNDN=.;CLNDISDB=.;CLNREVSTAT=.;CLNSIG=.;ALLELE_END
+1	879319	rs777	G	A	120	PASS	DP=90;ANNOVAR_DATE=2022-08-02;Func.refGene=exonic;Gene.refGene=SAMD11;GeneDetail.refGene=.;ExonicFunc.refGene=nonsynonymous_SNV;AAChange.refGene=SAMD11:NM_001385640:exon14:c.T2324A:p.V775E,SAMD11:NM_001385641:exon14:c.T2321A:p.V774E,SAMD11:NM_152486:exon14:c.T1832A:p.V611E;CLNALLELEID=.;CLNDN=.;CLNDISDB=.;CLNREVSTAT=.;CLNSIG=.;ALLELE_END

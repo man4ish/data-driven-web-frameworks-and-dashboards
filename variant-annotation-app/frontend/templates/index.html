@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variant Annotation App</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background-color: #f2f2f2; }
+    input[type="text"] { padding: 5px; width: 200px; margin-right: 10px; }
+    .filter-section { margin-top: 20px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Variant Annotation App</h1>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul style="color:red;">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  {% if variants %}
+  <div class="filter-section">
+    <h3>Filter Variants</h3>
+    <label>Gene: <input type="text" id="geneFilter" placeholder="Gene symbol" onkeyup="applyFilters()" /></label>
+    <label>Impact (Func.refGene): <input type="text" id="impactFilter" placeholder="Impact" onkeyup="applyFilters()" /></label>
+    <!-- You can add allele frequency filters later -->
+  </div>
+
+  <table id="variantsTable">
+    <thead>
+      <tr>
+        <th>Chr</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Ref</th>
+        <th>Alt</th>
+        <th>Function</th>
+        <th>Gene</th>
+        <th>Clinical Significance</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in variants %}
+      <tr>
+        <td>{{ v.Chr }}</td>
+        <td>{{ v.Start }}</td>
+        <td>{{ v.End }}</td>
+        <td>{{ v.Ref }}</td>
+        <td>{{ v.Alt }}</td>
+        <td>{{ v['Func.refGene'] }}</td>
+        <td>{{ v['Gene.refGene'] }}</td>
+        <td>{{ v.ClinicalSignificance }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+    function applyFilters() {
+      const geneInput = document.getElementById('geneFilter').value.toLowerCase();
+      const impactInput = document.getElementById('impactFilter').value.toLowerCase();
+
+      const table = document.getElementById('variantsTable');
+      const tr = table.getElementsByTagName('tr');
+
+      for (let i = 1; i < tr.length; i++) { // skip header row
+        const tdGene = tr[i].getElementsByTagName('td')[6]; // Gene column
+        const tdImpact = tr[i].getElementsByTagName('td')[5]; // Func.refGene column
+
+        if (!tdGene || !tdImpact) {
+          tr[i].style.display = "none";
+          continue;
+        }
+
+        const geneText = tdGene.textContent || tdGene.innerText;
+        const impactText = tdImpact.textContent || tdImpact.innerText;
+
+        const geneMatch = geneText.toLowerCase().includes(geneInput);
+        const impactMatch = impactText.toLowerCase().includes(impactInput);
+
+        if (geneMatch && impactMatch) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+
+  {% else %}
+  <!-- No variants yet: show upload form -->
+  <form action="/" method="POST" enctype="multipart/form-data">
+    <label for="vcf_file">Upload VCF file:</label>
+    <input type="file" id="vcf_file" name="vcf_file" accept=".vcf" required />
+    <button type="submit">Annotate</button>
+  </form>
+  {% endif %}
+</body>
+</html>

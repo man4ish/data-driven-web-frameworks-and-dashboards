@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Annotation Results</title>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 5px 10px;
+      }
+    </style>
+</head>
+<body>
+    <h2>Annotated Variants</h2>
+
+    <label for="geneFilter">Filter by Gene Name:</label>
+    <input type="text" id="geneFilter" onkeyup="filterTable()" placeholder="Enter gene symbol..." />
+
+    <table id="variantsTable">
+        <thead>
+            <tr>
+                {% for col in variants[0].keys() %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for variant in variants %}
+            <tr>
+                {% for val in variant.values() %}
+                <td>{{ val }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+      function filterTable() {
+        const input = document.getElementById("geneFilter");
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById("variantsTable");
+        const tr = table.getElementsByTagName("tr");
+
+        // Find the column index for 'Gene.refGene' or 'Gene'
+        const headers = tr[0].getElementsByTagName("th");
+        let geneColIndex = -1;
+        for(let i=0; i < headers.length; i++){
+            if(headers[i].innerText.toLowerCase().includes("gene")){
+                geneColIndex = i;
+                break;
+            }
+        }
+        if(geneColIndex === -1) return; // no gene column found
+
+        // Loop through table rows and hide those that don't match gene filter
+        for (let i = 1; i < tr.length; i++) {
+          const td = tr[i].getElementsByTagName("td")[geneColIndex];
+          if (td) {
+            const txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }       
+        }
+      }
+    </script>
+</body>
+</html>
