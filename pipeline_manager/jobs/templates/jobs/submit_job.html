@@ -8,8 +8,24 @@
   <h1>Submit a new job</h1>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    
+    <p>
+      {{ form.input_file.label_tag }}<br>
+      {{ form.input_file }}
+    </p>
+    
+    <p>
+      {{ form.pipeline_type.label_tag }}<br>
+      {{ form.pipeline_type }}
+    </p>
+    
+    <p>
+      {{ form.reference_genome.label_tag }}<br>
+      {{ form.reference_genome }}
+    </p>
+    
     <button type="submit">Submit</button>
   </form>
+  
 </body>
 </html>
