@@ -64,35 +64,156 @@ class AnnovarAnnotator(BaseAnnotator):
                 variants.append(variant)
         return variants
 
-
 class VepAnnotator(BaseAnnotator):
     def run(self):
-        # TODO: Implement VEP run command
-        pass
+        self.annotated_vcf = f"{self.output_prefix}.vep_annotated.vcf"
+
+        vep_script = "/Users/manishkumar/Desktop/llm-bio-webapps/variant-annotation-app/bin/ensembl-vep-release-114/vep"
+
+        if not os.path.exists(vep_script):
+            raise FileNotFoundError(f"VEP script not found at: {vep_script}")
+
+        # Basic VEP command
+        cmd = [
+            vep_script,
+            "--input_file", self.vcf_file_path,
+            "--output_file", self.annotated_vcf,
+            "--vcf",  # keep VCF format
+            "--force_overwrite",
+            "--offline",  # use locally installed cache, not online
+            "--cache",    # required for offline mode
+            "--everything",  # annotate with as much info as possible
+        ]
+
+        result = subprocess.run(cmd, capture_output=True, text=True)
+
+        if result.returncode != 0:
+            raise Exception(f"VEP annotation failed:\n{result.stderr}")
 
     def parse_output(self):
-        # TODO: Implement VEP output parsing
-        return []
+        variants = []
+        if not os.path.exists(self.annotated_vcf):
+            return variants
+
+        with open(self.annotated_vcf, 'r') as f:
+            for line in f:
+                if line.startswith('#'):
+                    continue
+                fields = line.strip().split('\t')
+                info_dict = dict(
+                    item.split('=') if '=' in item else (item, '')
+                    for item in fields[7].split(';')
+                )
+
+                variant = {
+                    'Chr': fields[0],
+                    'Pos': fields[1],
+                    'ID': fields[2],
+                    'Ref': fields[3],
+                    'Alt': fields[4],
+                    'Qual': fields[5],
+                    'Filter': fields[6],
+                    'Info': info_dict
+                }
+                variants.append(variant)
+        return variants
 
 
 class SnpEffAnnotator(BaseAnnotator):
     def run(self):
-        # TODO: Implement SnpEff run command
-        pass
+        self.annotated_vcf = f"{self.output_prefix}.snpeff_annotated.vcf"
+        
+        # Required attributes
+        if not hasattr(self, 'genome_version'):
+            raise AttributeError("Missing 'genome_version'. Set self.genome_version to something like 'GRCh38.99'.")
+
+        snpeff_jar = "/Users/manishkumar/Desktop/llm-bio-webapps/variant-annotation-app/bin/snpEff/snpEff.jar"
+
+        if not os.path.exists(snpeff_jar):
+            raise FileNotFoundError(f"snpEff jar not found at {snpeff_jar}")
+
+        cmd = [
+            "java", "-Xmx4g", "-jar", snpeff_jar,
+            self.genome_version,
+            self.vcf_file_path
+        ]
+
+        with open(self.annotated_vcf, 'w') as out_f:
+            result = subprocess.run(cmd, stdout=out_f, stderr=subprocess.PIPE, text=True)
+
+        if result.returncode != 0:
+            raise Exception(f"snpEff annotation failed:\n{result.stderr}")
 
     def parse_output(self):
-        # TODO: Implement SnpEff output parsing
-        return []
+        variants = []
+        if not os.path.exists(self.annotated_vcf):
+            return variants
+
+        with open(self.annotated_vcf, 'r') as f:
+            for line in f:
+                if line.startswith('#'):
+                    continue
+                fields = line.strip().split('\t')
+                info_dict = dict(
+                    item.split('=') if '=' in item else (item, '')
+                    for item in fields[7].split(';')
+                )
+
+                variant = {
+                    'Chr': fields[0],
+                    'Pos': fields[1],
+                    'ID': fields[2],
+                    'Ref': fields[3],
+                    'Alt': fields[4],
+                    'Qual': fields[5],
+                    'Filter': fields[6],
+                    'Info': info_dict
+                }
+                variants.append(variant)
+        return variants
 
 
 class BcftoolsAnnotator(BaseAnnotator):
     def run(self):
-        # TODO: Implement BCFtools run command
-        pass
+        # Output file path
+        self.annotated_vcf = f"{self.output_prefix}.bcftools_annotated.vcf"
+
+        # Replace -a with a real annotation VCF if available
+        cmd = [
+            "bcftools", "annotate",
+            "-o", self.annotated_vcf,
+            "-O", "v",
+            self.vcf_file_path
+        ]
+
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise Exception(f"BCFtools annotation failed: {result.stderr}")
 
     def parse_output(self):
-        # TODO: Implement BCFtools output parsing
-        return []
+        variants = []
+        if not os.path.exists(self.annotated_vcf):
+            return variants
+
+        with open(self.annotated_vcf, 'r') as f:
+            for line in f:
+                if line.startswith('#'):
+                    continue
+                fields = line.strip().split('\t')
+                info_dict = dict(item.split('=') if '=' in item else (item, '') for item in fields[7].split(';'))
+
+                variant = {
+                    'Chr': fields[0],
+                    'Pos': fields[1],
+                    'ID': fields[2],
+                    'Ref': fields[3],
+                    'Alt': fields[4],
+                    'Qual': fields[5],
+                    'Filter': fields[6],
+                    'Info': info_dict  # you can flatten this if needed
+                }
+                variants.append(variant)
+        return variants
 
 
 @app.route('/', methods=['GET', 'POST'])
