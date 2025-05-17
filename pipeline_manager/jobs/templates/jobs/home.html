@@ -1,0 +1,14 @@
+<h1>Your Submitted Jobs</h1>
+
+<p><a href="{% url 'submit_job' %}">Submit a new job</a></p>
+
+<ul>
+  {% for job in jobs %}
+    <li>
+      Job ID: {{ job.id }} - Status: {{ job.status }}
+      [<a href="{% url 'job_status' job.id %}">Details</a>]
+    </li>
+  {% empty %}
+    <li>No jobs submitted yet.</li>
+  {% endfor %}
+</ul>
