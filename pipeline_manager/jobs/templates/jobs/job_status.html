@@ -1,9 +1,10 @@
 {% extends 'base_generic.html' %}
+
 {% block content %}
-  <h2>Submit Pipeline Job</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
+  <h2>Job Status - Job #{{ job.id }}</h2>
+  <p><strong>Pipeline Type:</strong> {{ job.pipeline_type }}</p>
+  <p><strong>Uploaded File:</strong> {{ job.input_file.name }}</p>
+  <p><strong>Status:</strong> {{ job.status|default:"Pending" }}</p>  {# If you have status field #}
+  <p><strong>Submitted at:</strong> {{ job.created_at }}</p>
+  <a href="{% url 'jobs_home' %}">Back to Jobs List</a>
 {% endblock %}
