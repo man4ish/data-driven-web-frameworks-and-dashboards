@@ -1,13 +1,13 @@
-May-18 16:45:16.722 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /path/to/your/rnaseq_pipeline.nf --reads /Users/manishkumar/Desktop/llm-bio-webapps/pipeline_manager/media/uploads/synthetic_variants_ojFY3XZ.vcf --outdir /Users/manishkumar/Desktop/llm-bio-webapps/pipeline_manager/media/job_outputs/job_22
-May-18 16:45:16.754 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.10.4
-May-18 16:45:16.767 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/Users/manishkumar/.nextflow/plugins; core-plugins: nf-amazon@2.9.2,nf-azure@1.10.2,nf-cloudcache@0.4.2,nf-codecommit@0.2.2,nf-console@1.1.4,nf-google@1.15.3,nf-tower@1.9.3,nf-wave@1.7.4
-May-18 16:45:16.781 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
-May-18 16:45:16.782 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
-May-18 16:45:16.783 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
-May-18 16:45:16.789 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
-May-18 16:45:16.795 [main] DEBUG nextflow.scm.ProviderConfig - Using SCM config path: /Users/manishkumar/.nextflow/scm
-May-18 16:45:16.801 [main] DEBUG nextflow.cli.Launcher - Operation aborted
-nextflow.exception.AbortOperationException: Cannot find script file: /path/to/your/rnaseq_pipeline.nf
+May-18 20:18:29.582 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /Users/manishkumar/Desktop/llm-bio-webapps/pipelines/wes_pipeline.nf --reads /Users/manishkumar/Desktop/llm-bio-webapps/pipeline_manager/media/uploads/synthetic_variants_BZpMHoy.vcf --outdir /Users/manishkumar/Desktop/llm-bio-webapps/pipeline_manager/media/job_outputs/wes_job_28
+May-18 20:18:29.612 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.10.4
+May-18 20:18:29.622 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/Users/manishkumar/.nextflow/plugins; core-plugins: nf-amazon@2.9.2,nf-azure@1.10.2,nf-cloudcache@0.4.2,nf-codecommit@0.2.2,nf-console@1.1.4,nf-google@1.15.3,nf-tower@1.9.3,nf-wave@1.7.4
+May-18 20:18:29.636 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-18 20:18:29.636 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-18 20:18:29.637 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+May-18 20:18:29.642 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-18 20:18:29.646 [main] DEBUG nextflow.scm.ProviderConfig - Using SCM config path: /Users/manishkumar/.nextflow/scm
+May-18 20:18:29.651 [main] DEBUG nextflow.cli.Launcher - Operation aborted
+nextflow.exception.AbortOperationException: Cannot find script file: /Users/manishkumar/Desktop/llm-bio-webapps/pipelines/wes_pipeline.nf
 	at nextflow.cli.CmdRun.getScriptFile(CmdRun.groovy:536)
 	at nextflow.cli.CmdRun.run(CmdRun.groovy:325)
 	at nextflow.cli.Launcher.run(Launcher.groovy:503)
