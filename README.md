@@ -12,7 +12,9 @@ This repository contains Python web frameworks for building data-driven dashboar
 - **[Single-cell RNA-seq Explorer](single-cell-rna-seq-explorer/README.md)**: An interactive dashboard for exploring single-cell RNA sequencing data, allowing visualization of gene expression across different cell types or clusters.
 - **[Ollama Gene Reporter](ollama_gene_reporter/README.md)**: A FastAPI-based web application that integrates Ollama large language models for generating gene expression reports and interactive visualizations from uploaded CSV data.
 - **[LLAMA3 FastAPI Web Application](llama3-fastapi-web/README.md)**: A web application using FastAPI to interact with the LLAMA3 model for text generation and natural language tasks.
-- **[Variant Annotation App](variant-annotation-app)**: A comprehensive variant annotation pipeline integrating bcftools, snpEff, Ensembl VEP, and ANNOVAR for functional annotation of genetic variants from VCF files, with parsing and output processing in Python.
+- **[Variant Annotation App](variant-annotation-app/README.md)**: A comprehensive variant annotation pipeline integrating bcftools, snpEff, Ensembl VEP, and ANNOVAR for functional annotation of genetic variants from VCF files, with parsing and output processing in Python.
+- **[Visualization Workbench](visualization_workbench/README.md)**: A modular Django-based web platform for interactive genomic data visualization and pipeline management. It integrates apps such as IGV Viewer for genome browsing and Pipeline Manager for running and monitoring analysis workflows. Designed to be extensible, it allows seamless integration of future apps and tools in a unified interface.
+
 
 
 ## Frameworks Used
