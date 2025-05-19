@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "igv_viewer",
     "pipeline_manager",
+    "ml_predictor",
 ]
 
 MIDDLEWARE = [

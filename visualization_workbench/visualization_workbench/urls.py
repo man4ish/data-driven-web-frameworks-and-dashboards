@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('igv/', include('igv_viewer.urls')),  # if already added
     path('pipeline/', include('pipeline_manager.urls')),  # new line
+    path('ml/', include('ml_predictor.urls')),
 ]

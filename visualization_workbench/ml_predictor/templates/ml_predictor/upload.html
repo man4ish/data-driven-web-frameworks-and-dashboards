@@ -1,0 +1,6 @@
+<h2>Upload CSV File for ML Prediction</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
