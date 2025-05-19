@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "igv_viewer",
+    "pipeline_manager",
 ]
 
 MIDDLEWARE = [
