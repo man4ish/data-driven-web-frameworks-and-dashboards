@@ -28,5 +28,6 @@ urlpatterns = [
     path('pipeline/', include('pipeline_manager.urls')),
     path('ml_predictor/', include('ml_predictor.urls')),
     path('variant-annotation/', include('variant_annotation.urls')),
-    path('pathway-enrichment/', include('pathway_enrichment.urls')),
+    path('pathway-enrichment/', include(('pathway_enrichment.urls', 'pathway_enrichment'), namespace='pathway_enrichment')),
+
 ]

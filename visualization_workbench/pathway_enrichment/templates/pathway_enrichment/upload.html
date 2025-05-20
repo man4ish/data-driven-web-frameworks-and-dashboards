@@ -92,7 +92,7 @@
 </head>
 <body>
 
-<form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'run_enrichment' %}">
+  <form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'pathway_enrichment:run_enrichment' %}">
     {% csrf_token %}
     <h1>Pathway Enrichment</h1>
 

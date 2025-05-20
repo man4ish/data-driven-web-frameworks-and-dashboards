@@ -3,6 +3,8 @@ import requests
 from django.shortcuts import render
 from django.contrib import messages
 from .forms import GeneListUploadForm
+from django.shortcuts import render
+from django.http import HttpResponse
 
 from django.shortcuts import render
 
@@ -26,27 +28,21 @@ def parse_gene_pvalue(file):
     return genes
 
 
-def run_enrichr(gene_list, library='KEGG_2019_Human'):
-    ENRICHR_ADDLIST_URL = 'https://maayanlab.cloud/Enrichr/addList'
-    ENRICHR_ENRICH_URL = 'https://maayanlab.cloud/Enrichr/enrich'
+def run_enrichr(request):
+    if request.method == "POST":
+        gene_file = request.FILES.get("gene_file")
+        if not gene_file:
+            return HttpResponse("No file uploaded", status=400)
 
-    genes_str = '\n'.join(gene_list)
-    payload = {'list': (None, genes_str), 'description': (None, 'Uploaded gene list')}
-    response = requests.post(ENRICHR_ADDLIST_URL, files=payload)
-    if not response.ok:
-        return None
+        # Process the file (example: read lines)
+        file_data = gene_file.read().decode('utf-8').strip().split('\n')
+        # Add your enrichment logic here...
 
-    data = response.json()
-    user_list_id = data.get('userListId')
-    if not user_list_id:
-        return None
+        # Render result page or response
+        return render(request, 'pathway_enrichment/results.html', {'result': "Enrichment run successfully"})
 
-    params = {'userListId': user_list_id, 'backgroundType': library}
-    response = requests.get(ENRICHR_ENRICH_URL, params=params)
-    if not response.ok:
-        return None
-
-    return response.json()
+    # If GET or other method, just show upload form page
+    return render(request, 'pathway_enrichment/upload_form.html')
 
 
 def run_gsea(genes_pvalues):
