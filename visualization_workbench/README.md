@@ -18,6 +18,8 @@ visualization_workbench/
 ├── ml_predictor/            # Machine learning prediction tools
 ├── variant_annotation/      # Variant annotation functionality
 ├── pathway_enrichment/      # Pathway enrichment & GSEA
+├── network_analysis/        # Keyword co-occurrence network visualization
+├── literature_summarizer/   # Biomedical literature trend and entity analysis
 └── visualization_workbench/ # Main Django project config
 ```
 
@@ -70,15 +72,17 @@ Visit [http://127.0.0.1:8000](http://127.0.0.1:8000)
 ---
 
 ## Modules Overview
+Module | Description
+----- | -----
+`home/` | Landing page for the application
+`igv_viewer/` | Visualize genomic tracks via IGV.js
+`pipeline_manager/` | Launch and monitor pipelines or workflows
+`ml_predictor/` | Apply ML models to biological datasets
+`variant_annotation/` | Annotate VCF or variant files using bioinformatics tools
+`pathway_enrichment/` | Run Enrichr or GSEA on gene lists and visualize results
+`network_analysis/` | Analyze and visualize keyword co-occurrence networks from PubMed
+`literature_summarizer/` | Summarize, analyze trends, and extract entities from PubMed data
 
-| Module               | Description                                                  |
-|----------------------|--------------------------------------------------------------|
-| `home/`              | Landing page for the application                             |
-| `igv_viewer/`        | Visualize genomic tracks via IGV.js                          |
-| `pipeline_manager/`  | Launch and monitor pipelines or workflows                    |
-| `ml_predictor/`      | Apply ML models to biological datasets                       |
-| `variant_annotation/`| Annotate VCF or variant files using bioinformatics tools     |
-| `pathway_enrichment/`| Run Enrichr or GSEA on gene lists and visualize results      |
 
 ---
 
