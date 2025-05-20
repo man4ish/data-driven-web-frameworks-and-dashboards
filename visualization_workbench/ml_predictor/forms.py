@@ -1,4 +1,12 @@
 from django import forms
 
-class UploadDataForm(forms.Form):
-    file = forms.FileField(label='Upload CSV File')
+ANALYSIS_CHOICES = [
+    ('rna_seq', 'RNA-Seq'),
+    ('dna', 'DNA'),
+    ('geneexpression', 'Gene Expression'),
+    ('dna+rna', 'DNA + RNA'),
+]
+
+class AnalysisUploadForm(forms.Form):
+    analysis_type = forms.ChoiceField(choices=ANALYSIS_CHOICES, label="Select Analysis Type")
+    data_file = forms.FileField(label="Upload Data File")

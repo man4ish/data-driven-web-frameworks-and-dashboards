@@ -1,6 +1,21 @@
-<h2>Upload CSV File for ML Prediction</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Data for ML Prediction</title>
+</head>
+<body>
+    <h1>Select Analysis Type and Upload Data</h1>
+    <form method="post" enctype="multipart/form-data" action="{% url 'ml_predictor:ml_predictor_upload' %}">
+        {% csrf_token %}
+        <label for="{{ form.analysis_type.id_for_label }}">Select Analysis Type:</label>
+        {{ form.analysis_type|add_class:"form-control" }}
+        <br><br>
+        <label for="{{ form.data_file.id_for_label }}">Choose file to upload:</label>
+        {{ form.data_file|add_class:"form-control" }}
+        <br><br>
+        <button type="submit">Upload & Predict</button>
+    </form>
+</body>
+</html>

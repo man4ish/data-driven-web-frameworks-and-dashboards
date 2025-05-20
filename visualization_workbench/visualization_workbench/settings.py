@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "igv_viewer",
     "pipeline_manager",
     "ml_predictor",
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
