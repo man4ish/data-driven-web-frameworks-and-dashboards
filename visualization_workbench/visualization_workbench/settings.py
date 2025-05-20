@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "home",
     "variant_annotation",
+    'pathway_enrichment',
 ]
 
 MIDDLEWARE = [
