@@ -1,0 +1,15 @@
+source,target,interaction
+TP53,MDM2,inhibition
+EGFR,PIK3CA,activation
+BRCA1,BRCA2,binding
+TP53,BAX,activation
+AKT1,MTOR,activation
+MTOR,RPS6KB1,phosphorylation
+PIK3CA,AKT1,activation
+MAPK1,MAPK3,dimerization
+EGFR,GRB2,recruitment
+GRB2,SOS1,recruitment
+SOS1,KRAS,activation
+KRAS,BRAF,activation
+BRAF,MAP2K1,phosphorylation
+MAP2K1,MAPK1,phosphorylation
