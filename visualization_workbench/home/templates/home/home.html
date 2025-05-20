@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visualization Workbench Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+            color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: rgba(0,0,0,0.3);
+            padding: 20px 40px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+        }
+        header p.author {
+            margin: 6px 0 0;
+            font-style: italic;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 30px 40px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        main p.description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #d0d0ff;
+        }
+        ul.app-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul.app-list li {
+            background-color: rgba(255, 255, 255, 0.15);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+        ul.app-list li:hover {
+            background-color: #4c6fff;
+        }
+        ul.app-list li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        ul.app-list li a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin: 50px 0 20px;
+            font-size: 0.9rem;
+            color: #bbbbff;
+            opacity: 0.7;
+        }
+        @media (max-width: 600px) {
+            main {
+                margin: 20px;
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Visualization Workbench</h1>
+        <p class="author">Created by Manish Kumar Gupta</p>
+    </header>
+    <main>
+        <p class="description">
+            The Visualization Workbench is a powerful web platform designed to simplify and streamline
+            your bioinformatics and data analysis workflows. It currently integrates multiple
+            specialized applications — each focused on distinct areas such as machine learning predictions,
+            pipeline management, and genome visualization — all accessible from a unified home interface.
+        </p>
+
+        <p>Select an application below to get started:</p>
+        <ul class="app-list">
+            <li><a href="{% url 'ml_predictor:ml_predictor_upload' %}"> - ML Predictor Upload</a> — Upload your biological datasets and get quick machine learning-based predictions.</li>
+        
+            {% comment %}
+            <li><a href="{% url 'pipeline:index' %}"> - Pipeline Manager</a> — Create, monitor, and manage complex data processing pipelines with ease.</li>
+            <li><a href="{% url 'igv:igv_home' %}">IGV Viewer</a> — Visualize genomic data interactively using an integrated genome browser.</li>
+            {% endcomment %}
+        </ul>
+        
+    </main>
+    <footer>
+        &copy; 2025 Manish Kumar Gupta. All rights reserved.
+    </footer>
+</body>
+</html>

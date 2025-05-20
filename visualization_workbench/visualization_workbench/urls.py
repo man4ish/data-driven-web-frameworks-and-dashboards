@@ -18,9 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.contrib import admin
+from django.urls import path, include
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('igv/', include('igv_viewer.urls')),  # if already added
-    path('pipeline/', include('pipeline_manager.urls')),  # new line
+    path('', include('home.urls')),  # Home page at root
+    path('igv/', include('igv_viewer.urls')),
+    path('pipeline/', include('pipeline_manager.urls')),
     path('ml_predictor/', include('ml_predictor.urls')),
+    path('variant-annotation/', include('variant_annotation.urls')),
 ]

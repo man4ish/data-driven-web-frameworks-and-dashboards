@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "igv_viewer",
     "pipeline_manager",
     "ml_predictor",
-    'widget_tweaks',
+    "widget_tweaks",
+    "home",
+    "variant_annotation",
 ]
 
 MIDDLEWARE = [
