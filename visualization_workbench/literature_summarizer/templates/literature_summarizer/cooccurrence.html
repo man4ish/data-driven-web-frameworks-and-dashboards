@@ -1,0 +1,37 @@
+{% extends "literature_summarizer/base.html" %}
+
+{% block content %}
+<h2>Trend Analysis</h2>
+<canvas id="trendChart" width="800" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ data|map(attribute=0)|list|safe }},
+      datasets: [{
+        label: 'Mentions of "{{ keyword }}"',
+        data: {{ data|map(attribute=1)|list|safe }},
+        borderColor: 'blue',
+        fill: false
+      }]
+    }
+  });
+</script>
+{% endblock %}
+
+<div id="cy" style="height: 600px;"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.24.0/cytoscape.min.js"></script>
+<script>
+var cy = cytoscape({
+  container: document.getElementById('cy'),
+  elements: {{ elements|safe }},
+  style: [
+    { selector: 'node', style: { 'label': 'data(id)', 'background-color': '#2E86AB' }},
+    { selector: 'edge', style: { 'width': 'mapData(weight, 1, 10, 1, 5)', 'line-color': '#ccc' }}
+  ],
+  layout: { name: 'cose' }
+});
+</script>
+

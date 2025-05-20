@@ -1,0 +1,33 @@
+{% extends "literature_summarizer/base.html" %}
+
+{% block content %}
+<h2>Trend Analysis for "{{ keyword }}"</h2>
+<canvas id="trendChart" width="800" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ labels|safe }},
+      datasets: [{
+        label: 'Mentions of "{{ keyword }}"',
+        data: {{ values|safe }},
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true },
+        title: {
+          display: true,
+          text: 'Keyword Trend Over Time'
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}
