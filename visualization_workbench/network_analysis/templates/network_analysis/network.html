@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Visualization</title>
+    <script src="https://unpkg.com/cytoscape@3.19.0/dist/cytoscape.min.js"></script>
+</head>
+<body>
+    <h2>Gene/Protein Network</h2>
+    <div id="cy" style="width: 800px; height: 600px; border: 1px solid #ccc;"></div>
+    <script>
+    fetch('/network_analysis/api/network/')
+        .then(response => response.json())
+        .then(data => {
+            const cy = cytoscape({
+                container: document.getElementById('cy'),
+                elements: [
+                    ...data.nodes.map(n => ({ data: { id: n.id, label: n.label } })),
+                    ...data.edges.map(e => ({ data: { source: e.source, target: e.target } }))
+                ],
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(label)',
+                            'background-color': '#0074D9'
+                        }
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'line-color': '#ccc'
+                        }
+                    }
+                ],
+                layout: { name: 'cose' }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -29,5 +29,6 @@ urlpatterns = [
     path('ml_predictor/', include('ml_predictor.urls')),
     path('variant-annotation/', include('variant_annotation.urls')),
     path('pathway-enrichment/', include(('pathway_enrichment.urls', 'pathway_enrichment'), namespace='pathway_enrichment')),
-
+    path("literature_summarizer/", include("literature_summarizer.urls")),
+    path("network_analysis/", include("network_analysis.urls")),
 ]

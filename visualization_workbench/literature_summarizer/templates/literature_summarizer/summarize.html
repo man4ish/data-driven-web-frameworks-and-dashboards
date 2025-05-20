@@ -1,0 +1,11 @@
+<h2>PubMed Literature Summarizer</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Summarize</button>
+</form>
+
+{% if summary %}
+  <h3>LLM Summary</h3>
+  <pre>{{ summary }}</pre>
+{% endif %}
