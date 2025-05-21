@@ -24,10 +24,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),  # Home page at root
-    path('igv/', include('igv_viewer.urls')),
-    path('pipeline/', include('pipeline_manager.urls')),
+    path('igv/', include(('igv_viewer.urls', 'igv_viewer'), namespace='igv_viewer')),
+    path('pipeline/', include(('pipeline_manager.urls', 'pipeline_manager'), namespace='pipeline_manager')),
     path('ml_predictor/', include('ml_predictor.urls')),
-    path('variant-annotation/', include('variant_annotation.urls')),
+    path('variant-annotation/', include(('variant_annotation.urls', 'variant_annotation'), namespace='variant_annotation')),
     path('pathway-enrichment/', include(('pathway_enrichment.urls', 'pathway_enrichment'), namespace='pathway_enrichment')),
     path("literature_summarizer/", include("literature_summarizer.urls")),
     path("network_analysis/", include("network_analysis.urls")),

@@ -99,12 +99,23 @@
 
         <p>Select an application below to get started:</p>
         <ul class="app-list">
-            <li><a href="{% url 'ml_predictor:ml_predictor_upload' %}"> - ML Predictor Upload</a> — Upload your biological datasets and get quick machine learning-based predictions.</li>
-        
-            {% comment %}
-            <li><a href="{% url 'pipeline:index' %}"> - Pipeline Manager</a> — Create, monitor, and manage complex data processing pipelines with ease.</li>
-            <li><a href="{% url 'igv:igv_home' %}">IGV Viewer</a> — Visualize genomic data interactively using an integrated genome browser.</li>
-            {% endcomment %}
+            <li><a href="{% url 'ml_predictor:ml_predictor_upload' %}">ML Predictor Upload</a> — Upload your biological datasets and get quick machine learning-based predictions.</li>
+
+            <li><a href="{% url 'pipeline_manager:pipeline_home' %}">Pipeline Manager</a> — Create, monitor, and manage complex data processing pipelines with ease.</li>
+
+            <li><a href="{% url 'igv_viewer:igv_home' %}">IGV Viewer</a> — Visualize genomic data interactively using an integrated genome browser.</li>
+
+            <li><a href="{% url 'variant_annotation:index' %}">Variant Annotation</a> — Annotate genetic variants with relevant biological information.</li>
+
+            {# <li><a href="{% url 'pathway_enrichment:index' %}">Pathway Enrichment</a> — Analyze biological pathways enriched in your dataset.</li> #}
+
+            {#<li><a href="{% url 'literature_summarizer:index' %}">Literature Summarizer</a> — Summarize scientific literature relevant to your research.</li>#}
+
+            {#<li><a href="{% url 'network_analysis:index' %}">Network Analysis</a> — Explore and analyze biological interaction networks.</li>#}
+
+            {#<li><a href="{% url 'single_cell_analysis:index' %}">Single Cell Analysis</a> — Visualize and analyze single cell RNA-seq data, including UMAP and gene expression plots.</li>#}
+
+            {#<li><a href="{% url 'home:index' %}">Home Dashboard</a> — Return to the main dashboard.</li>#}
         </ul>
         
     </main>
