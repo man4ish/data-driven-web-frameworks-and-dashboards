@@ -1,36 +1,24 @@
 {% extends "single_cell_analysis/base.html" %}
+
 {% block content %}
-
 <h2>UMAP Visualization</h2>
-
-<form method="POST" action="{% url 'umap_plot' %}">
-  {% csrf_token %}
-  
-  <label for="id_file">File:</label><br>
-  {{ upload_form.file }}  <!-- UploadH5ADForm's file field -->
-  
-  <br><br>
-
-  <label for="id_color_by">Color by:</label><br>
-  {{ color_form.color_by }}  <!-- SelectColorForm's dropdown -->
-
-  <br><br>
-
-  <button type="submit">Show UMAP Plot</button>
-</form>
-
-{% if plot_path %}
-  <h3>UMAP Plot</h3>
-  <img src="{{ plot_path }}" alt="UMAP Plot" style="max-width: 600px; height: auto;">
-  
-  <br><br>
-
-  <a href="{% url 'download_metadata' %}">Download Metadata CSV</a> |
-  <a href="{% url 'upload_h5ad' %}">Upload Another File</a>
-{% endif %}
 
 {% if error %}
   <p style="color: red;">{{ error }}</p>
+{% else %}
+  <p><strong>File:</strong> {{ filename }}</p>
+
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">UMAP Plot</button>
+  </form>
+
+  <img src="{{ plot_path }}" alt="UMAP Plot" style="margin-top: 20px; max-width: 100%; height: auto;" />
+
+  <p>
+    <a href="{% url 'download_metadata' %}">Download Metadata</a>
+    <a href="{% url 'gene_umap' %}">Explore Gene Expression on UMAP</a> |
+    <a href="{% url 'upload_h5ad' %}">Upload Another File</a>
+  </p>
 {% endif %}
 {% endblock %}
-

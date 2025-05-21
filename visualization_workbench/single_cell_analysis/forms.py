@@ -1,4 +1,8 @@
 from django import forms
+from django import forms
+
+class GeneExpressionForm(forms.Form):
+    gene = forms.CharField(label='Gene name', max_length=100)
 
 class SelectColorForm(forms.Form):
     color_by = forms.ChoiceField(label="Color by", choices=[], required=False)
@@ -10,3 +14,6 @@ class SelectColorForm(forms.Form):
     
 class UploadH5ADForm(forms.Form):
     file = forms.FileField(label='Upload .h5ad file')
+
+class GeneExpressionForm(forms.Form):
+    gene = forms.CharField(label="Gene name", max_length=100)

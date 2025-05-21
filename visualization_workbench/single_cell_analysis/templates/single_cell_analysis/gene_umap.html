@@ -1,0 +1,18 @@
+{% extends "single_cell_analysis/base.html" %}
+{% block content %}
+  <h2>Gene Expression on UMAP</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Show Gene Expression</button>
+  </form>
+
+  {% if message %}
+    <p style="color:red;">{{ message }}</p>
+  {% endif %}
+
+  {% if img_path %}
+    <h3>UMAP colored by: {{ gene_name }}</h3>
+    <img src="{{ img_path }}" alt="Gene UMAP">
+  {% endif %}
+{% endblock %}
