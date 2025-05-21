@@ -8,6 +8,46 @@ from collections import Counter
 import networkx as nx
 import requests
 
+
+def pubmed_query(query, retmax=20):
+    """Fetch abstracts from PubMed given a query string."""
+    base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
+    
+    # Step 1: Search for PubMed IDs (PMIDs)
+    search_url = f"{base_url}esearch.fcgi"
+    search_params = {
+        "db": "pubmed",
+        "term": query,
+        "retmode": "json",
+        "retmax": retmax
+    }
+    search_response = requests.get(search_url, params=search_params)
+    id_list = search_response.json().get("esearchresult", {}).get("idlist", [])
+
+    if not id_list:
+        return []
+
+    # Step 2: Fetch abstracts for those PMIDs
+    fetch_url = f"{base_url}efetch.fcgi"
+    fetch_params = {
+        "db": "pubmed",
+        "id": ",".join(id_list),
+        "retmode": "xml"
+    }
+    fetch_response = requests.get(fetch_url, params=fetch_params)
+    
+    # Parse abstracts from the XML
+    from xml.etree import ElementTree as ET
+    root = ET.fromstring(fetch_response.text)
+    
+    abstracts = []
+    for article in root.findall(".//PubmedArticle"):
+        abstract_text = article.findtext(".//AbstractText")
+        if abstract_text:
+            abstracts.append({"abstract": abstract_text})
+    
+    return abstracts
+
 def pubtator_annotate(request):
     query = request.GET.get("query", "")
     annotated = []

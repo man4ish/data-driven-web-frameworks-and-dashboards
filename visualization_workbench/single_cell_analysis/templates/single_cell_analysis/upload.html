@@ -1,0 +1,9 @@
+{% extends "single_cell_analysis/base.html" %}
+{% block content %}
+  <h2>Upload .h5ad File</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload & Process</button>
+  </form>
+{% endblock %}

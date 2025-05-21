@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>UMAP Plot</h2>
+  <img src="{{ plot_path }}" alt="UMAP Plot">
+  <a href="{% url 'upload_h5ad' %}">Upload another</a>
+{% endblock %}

@@ -44,9 +44,9 @@ INSTALLED_APPS = [
     "home",
     "variant_annotation",
     'pathway_enrichment',
-    'rest_framework',
     'network_analysis',
     'literature_summarizer',
+    'single_cell_analysis',
 ]
 
 MIDDLEWARE = [
