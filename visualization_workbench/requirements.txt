@@ -1,0 +1,11 @@
+dockerspawner
+pandas
+numpy
+matplotlib
+scikit-learn
+scipy
+seaborn
+jupyterlab
+jupyterlab-git
+Django>=4.0
+psycopg2-binary
