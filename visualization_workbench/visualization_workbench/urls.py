@@ -33,4 +33,5 @@ urlpatterns = [
     path("network_analysis/", include("network_analysis.urls")),
     path('single_cell/', include('single_cell_analysis.urls')),
     path('gene_annotation/', include('gene_annotation.urls')),
+    path('variant_annotator/', include('variant_annotator.urls')),
 ]
