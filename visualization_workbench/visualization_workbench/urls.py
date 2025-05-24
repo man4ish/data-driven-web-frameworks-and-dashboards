@@ -33,4 +33,9 @@ urlpatterns = [
     path("network_analysis/", include("network_analysis.urls")),
     path('single_cell/', include('single_cell_analysis.urls')),
     path('gene_annotation/', include('gene_annotation.urls')),
-]
+    path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+
+    # Optional: Redirect root to jobs
+    # path('', lambda request: redirect('jobs/', permanent=False)),
+] 

@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "igv_viewer",
-    "pipeline_manager",
     "ml_predictor",
     "widget_tweaks",
     "home",
+    "pipeline_manager",
     "variant_annotation",
     'pathway_enrichment',
     'network_analysis',
@@ -148,3 +148,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
