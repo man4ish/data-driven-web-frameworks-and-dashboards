@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'literature_summarizer',
     'single_cell_analysis',
     "gene_annotation",
-    "variant_annotator",
 ]
 
 MIDDLEWARE = [
